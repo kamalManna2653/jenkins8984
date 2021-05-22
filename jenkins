@@ -1,0 +1,21 @@
+node 
+{
+    def mavenhome = tool name : "maven 3.8.1"
+    
+    stage('check-out')
+    {
+        git 'https://github.com/kamalManna2653/maven-web-application.git'
+}
+stage("build" )
+{
+sh"${mavenhome}/bin/mvn clean package"
+}
+stage("Generate sonar qube report" )
+{
+sh"${mavenhome}/bin/mvn clean package sonar:sonar"
+}
+stage("upload artifacts into nexus" )
+{
+sh"${mavenhome}/bin/mvn deploy"
+}
+}
